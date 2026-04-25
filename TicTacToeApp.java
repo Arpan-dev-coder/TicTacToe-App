@@ -1,21 +1,26 @@
 import java.util.Scanner;
 
 /**
- * UC4 – Convert slot (1–9) to board index (row, column)
+ * UC5 – Validate user move
  */
 
 public class TicTacToeApp {
 
-    // Method to take user input
-    public static int getUserSlotInput() {
+    // Initialize board
+    public static char[][] createBoard() {
 
-        Scanner scanner = new Scanner(System.in);
+        char[][] board = new char[3][3];
 
-        System.out.print("Enter slot number (1-9): ");
-        return scanner.nextInt();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = '-';
+            }
+        }
+
+        return board;
     }
 
-    // Method to convert slot → row & column
+    // Convert slot → row, col
     public static int[] convertSlotToIndex(int slot) {
 
         int row = (slot - 1) / 3;
@@ -24,12 +29,54 @@ public class TicTacToeApp {
         return new int[]{row, col};
     }
 
+    // Validate move
+    public static boolean isValidMove(char[][] board, int row, int col) {
+
+        // Check bounds
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
+            return false;
+        }
+
+        // Check if cell is empty
+        if (board[row][col] != '-') {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Print board
+    public static void printBoard(char[][] board) {
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
 
-        int slot = getUserSlotInput();
+        Scanner scanner = new Scanner(System.in);
+
+        char[][] board = createBoard();
+
+        printBoard(board);
+
+        System.out.print("Enter slot (1-9): ");
+        int slot = scanner.nextInt();
 
         int[] index = convertSlotToIndex(slot);
 
-        System.out.println("Slot " + slot + " → Row: " + index[0] + ", Column: " + index[1]);
+        int row = index[0];
+        int col = index[1];
+
+        // Validate move
+        if (isValidMove(board, row, col)) {
+            System.out.println("Valid move ✅");
+        } else {
+            System.out.println("Invalid move ❌");
+        }
     }
 }
