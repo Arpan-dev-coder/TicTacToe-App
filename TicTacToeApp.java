@@ -1,26 +1,35 @@
 import java.util.Scanner;
 
 /**
- * UC3 – Accept user slot input (1–9)
+ * UC4 – Convert slot (1–9) to board index (row, column)
  */
 
 public class TicTacToeApp {
 
-    // Method to take slot input
+    // Method to take user input
     public static int getUserSlotInput() {
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter slot number (1-9): ");
-        int slot = scanner.nextInt();
+        return scanner.nextInt();
+    }
 
-        return slot;
+    // Method to convert slot → row & column
+    public static int[] convertSlotToIndex(int slot) {
+
+        int row = (slot - 1) / 3;
+        int col = (slot - 1) % 3;
+
+        return new int[]{row, col};
     }
 
     public static void main(String[] args) {
 
-        int selectedSlot = getUserSlotInput();
+        int slot = getUserSlotInput();
 
-        System.out.println("You selected slot: " + selectedSlot);
+        int[] index = convertSlotToIndex(slot);
+
+        System.out.println("Slot " + slot + " → Row: " + index[0] + ", Column: " + index[1]);
     }
 }
